@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -32,7 +33,7 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $data = $request->validated();
-        $category=Category::create($data);
+        $category = Category::create($data);
         return CategoryResource::make($category)->resolve();
     }
 
@@ -49,7 +50,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $category = CategoryResource::make($category)->resolve();
+        return view('category_edit', ['category' => $category]);
     }
 
     /**
@@ -57,7 +59,11 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+
+        $data = $request->validated();
+        $category->update($data);
+
+        return CategoryResource::make($category)->resolve();
     }
 
     /**
@@ -65,6 +71,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return Response::HTTP_NO_CONTENT;
     }
 }

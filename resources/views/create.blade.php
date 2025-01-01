@@ -12,7 +12,7 @@
 
     <div class="max-w-2xl mx-auto">
         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-            <a href="17.table_2.html" class="mb-5 font-medium text-sm inline-flex items-center text-blue-500 hover:text-blue-800">
+            <a href="/posts" class="mb-5 font-medium text-sm inline-flex items-center text-blue-500 hover:text-blue-800">
                 <svg class="mr-1 -ml-1 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
                 </svg>
@@ -24,7 +24,8 @@
                         Добавить статью
                     </h3>
                 </div>
-                <form action="#">
+                <form action="/posts" method="POST">
+                    @csrf
                     <div class="mb-4">
                         <div>
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Название</label>
@@ -32,7 +33,7 @@
                         </div>
                         <div class="sm:col-span-2 mt-3">
                             <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Текст</label>
-                            <textarea id="description" rows="10" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напишите текст статьи"></textarea>                    
+                            <textarea id="description" name="content" rows="10" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Напишите текст статьи"></textarea>
                         </div>
                     </div>
                     <button type="submit" class="text-white inline-flex items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-primary-800">

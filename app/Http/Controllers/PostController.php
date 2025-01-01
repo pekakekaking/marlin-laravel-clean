@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Http\Resources\PostResource;
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -13,7 +16,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = PostResource::collection(Post::all()->load('category'))->resolve();
+        return view('main', compact('posts'));
     }
 
     /**
@@ -21,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -29,7 +33,11 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['user_id'] = isset(auth()->user()->id) ? auth()->user()->id : User::all()->first()->id;
+        $data['category_id']=Category::all()->first()->id;
+        $post = Post::create($data);
+        return PostResource::make($post)->resolve();
     }
 
     /**

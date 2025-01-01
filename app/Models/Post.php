@@ -12,6 +12,15 @@ class Post extends Model
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'content',
+        'user_id',
+        'category_id',
+        'look',
+        'is_published',
+    ];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
