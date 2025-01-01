@@ -12,7 +12,7 @@
 
     <div class="max-w-2xl mx-auto">
         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-            <a href="17.table_2_category_list.html" class="mb-5 font-medium text-sm inline-flex items-center text-blue-500 hover:text-blue-800">
+            <a href="/categories" class="mb-5 font-medium text-sm inline-flex items-center text-blue-500 hover:text-blue-800">
                 <svg class="mr-1 -ml-1 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
                 </svg>
@@ -24,7 +24,8 @@
                         Добавить категорию
                     </h3>
                 </div>
-                <form action="#">
+                <form action="/categories" method="POST">
+                    @csrf
                     <div class="mb-4">
                         <div>
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Название</label>

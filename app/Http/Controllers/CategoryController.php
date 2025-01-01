@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -13,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = CategoryResource::collection(Category::all()->load('posts'))->resolve();
+        return view('category_list', ['categories' => $categories]);
     }
 
     /**
@@ -21,7 +23,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category_create');
     }
 
     /**
@@ -29,7 +31,9 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $data = $request->validated();
+        $category=Category::create($data);
+        return CategoryResource::make($category)->resolve();
     }
 
     /**
