@@ -12,6 +12,12 @@ Route::resources([
 
 Route::get('/', [PostController::class, 'index']);
 
+Route::get('/posts/{post}/category',[PostController::class, 'selectCategory']);
+Route::post('/posts/{post}/category',[PostController::class, 'updateCategory']);
+Route::get('/posts/{post}/status',[PostController::class, 'updateStatus']);
+Route::get('/posts/{post}/image',[PostController::class, 'showImage']);
+Route::post('/posts/{post}/image',[PostController::class, 'updateImage']);
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

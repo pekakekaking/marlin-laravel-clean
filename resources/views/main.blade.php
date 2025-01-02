@@ -78,7 +78,7 @@
                 @endif
 
                 <td class="px-6 py-4">
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" class="w-[100px]" alt="">
+                    <img src="/storage/{{$post['image']}}" class="w-[100px]" alt="">
                 </td>
                 <td class="px-6 py-4 flex">
                     <a href="/posts/{{$post['id']}}/edit" class="p-1" title="Редактировать">
