@@ -8,6 +8,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
@@ -45,7 +46,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        $post =  PostResource::make($post->load('category'))->resolve();
+        return view('show', compact('post'));
     }
 
     /**
@@ -53,7 +55,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+
+        $post =  PostResource::make($post->load('category'))->resolve();
+        return view('edit', compact('post'));
     }
 
     /**
@@ -61,7 +65,9 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $data=$request->validated();
+        $post->update($data);
+        return PostResource::make($post)->resolve();
     }
 
     /**
@@ -69,6 +75,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return Response::HTTP_NO_CONTENT;
     }
 }

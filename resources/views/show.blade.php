@@ -13,7 +13,7 @@
     <section class="bg-white dark:bg-gray-900">
         <div class="py-8 px-4 mx-auto max-w-2xl">
             <div class="mb-5">
-                <a href="17.table_2.html" class="font-medium text-sm inline-flex items-center text-blue-500 hover:text-blue-800">
+                <a href="/posts" class="font-medium text-sm inline-flex items-center text-blue-500 hover:text-blue-800">
                     <svg class="mr-1 -ml-1 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
                     </svg>
@@ -51,7 +51,7 @@
                     Скрыть
                 </a>  
 
-                <a href="17.table_2_edit.html" class="inline-flex items-center text-white ml-0 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-yellow-900">
+                <a href="/posts/{{$post['id']}}/edit" class="inline-flex items-center text-white ml-0 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-yellow-900">
                     <svg aria-hidden="true" class="mr-1 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
                     Редактировать
                 </a>   
@@ -66,17 +66,21 @@
                 <div>
                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Категория</dt>
                     <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                        <span class="inline-block w-full bg-blue-100 text-blue-800 text-xs font-medium me-2 px-1.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 text-center">Мой опыт</span>
+                        <span class="inline-block w-full bg-blue-100 text-blue-800 text-xs font-medium me-2 px-1.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 text-center">{{$post['category']['name']}}</span>
                     </dd>
                 </div>
-                
+                @if($post['is_published']=='1')
                 <div>
                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Статус</dt>
                     <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
                         <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Опубликован</span>
                     </dd>
                 </div>
-
+                @else
+                    <td class="px-6 py-4">
+                        <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Скрыт</span>
+                    </td>
+                @endif
                 <div>
                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24">
@@ -84,17 +88,15 @@
                             <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                           </svg>
                     </dt>
-                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">83</dd>
+                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{$post['look']}}</dd>
                 </div>
             </dl>
-            <h2 class="mb-2 mt-5 text-xl font-semibold leading-none text-gray-900 md:text-2xl dark:text-white">Мой путь в PHP: от новичка до Senior Developer</h2>
+            <h2 class="mb-2 mt-5 text-xl font-semibold leading-none text-gray-900 md:text-2xl dark:text-white">{{$post['name']}}</h2>
             <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" alt="">
             <dl class="mt-5">
                 <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Полный текст</dt>
                 <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
-                    Делюсь своей историей — как я начинал с PHP, с какими трудностями столкнулись и какие шаги помогли мне стать Senior Developer. Советы и рекомендации для начинающих разработчиков
-                    <br> <br>
-                    Делюсь своей историей — как я начинал с PHP, с какими трудностями столкнулись и какие шаги помогли мне стать Senior Developer. Советы и рекомендации для начинающих разработчиков Делюсь своей историей — как я начинал с PHP, с какими трудностями столкнулись и какие шаги помогли мне стать Senior Developer. Советы и рекомендации для начинающих разработчиков
+                    {{$post['content']}}
                 </dd>
             </dl>
             

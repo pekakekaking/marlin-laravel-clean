@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = CategoryResource::collection(Category::all()->load('posts'))->resolve();
-        return view('category_list', ['categories' => $categories]);
+        return view('category_list', compact('categories'));
     }
 
     /**
@@ -51,7 +51,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         $category = CategoryResource::make($category)->resolve();
-        return view('category_edit', ['category' => $category]);
+        return view('category_edit', compact('category'));
     }
 
     /**
