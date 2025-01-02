@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostShowEvent;
 use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdateCategoryInPostRequest;
+use App\Http\Requests\UpdatePictureInPostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -36,7 +41,7 @@ class PostController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = isset(auth()->user()->id) ? auth()->user()->id : User::all()->first()->id;
-        $data['category_id']=Category::all()->first()->id;
+        $data['category_id'] = Category::all()->first()->id;
         $post = Post::create($data);
         return PostResource::make($post)->resolve();
     }
@@ -46,7 +51,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post =  PostResource::make($post->load('category'))->resolve();
+        PostShowEvent::dispatch($post);
+        $post = PostResource::make($post->load('category'))->resolve();
         return view('show', compact('post'));
     }
 
@@ -56,7 +62,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
 
-        $post =  PostResource::make($post->load('category'))->resolve();
+        $post = PostResource::make($post->load('category'))->resolve();
         return view('edit', compact('post'));
     }
 
@@ -65,7 +71,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $data=$request->validated();
+        $data = $request->validated();
         $post->update($data);
         return PostResource::make($post)->resolve();
     }
@@ -77,5 +83,48 @@ class PostController extends Controller
     {
         $post->delete();
         return Response::HTTP_NO_CONTENT;
+    }
+
+    public function selectCategory(Post $post)
+    {
+        $post = PostResource::make($post->load('category'))->resolve();
+        $categories = CategoryResource::collection(Category::all())->resolve();
+        return view('select_category', compact('post', 'categories'));
+    }
+
+    public function updateCategory(UpdateCategoryInPostRequest $request, Post $post)
+    {
+        $data = $request->validated();
+        $post->update([
+            'category_id' => $data['category']
+        ]);
+        return PostResource::make($post)->resolve();
+    }
+    public function updateStatus(Post $post)
+    {
+        if ($post['is_published'] == '1') {
+            $post->update([
+                'is_published' => 0
+            ]);
+        } else {
+            $post->update([
+                'is_published' => 1
+            ]);
+        }
+        return redirect()->route('posts.show', $post);
+    }
+    public function showImage(Post $post)
+    {
+        $post = PostResource::make($post)->resolve();
+        return view('image', compact('post'));
+    }
+    public function updateImage(UpdatePictureInPostRequest $request, Post $post)
+    {
+        $data = $request->validationData();
+        $data['image']=Storage::disk('public')->put('images',$data['image']);
+        $post->update([
+            'image' => $data['image']
+        ]);
+        return back();
     }
 }
