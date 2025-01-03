@@ -5,18 +5,25 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::resources([
-    'categories'=>CategoryController::class,
-    'posts'=> PostController::class,
-]);
 
-Route::get('/', [PostController::class, 'index']);
+Route::middleware('auth')->group(function () {
+    Route::resources([
+        'categories'=>CategoryController::class,
+        'posts'=> PostController::class,
+    ]);
+    Route::get('/posts/{post}/category',[PostController::class, 'selectCategory']);
+    Route::post('/posts/{post}/category',[PostController::class, 'updateCategory']);
+    Route::get('/posts/{post}/status',[PostController::class, 'updateStatus']);
+    Route::get('/posts/{post}/image',[PostController::class, 'showImage']);
+    Route::post('/posts/{post}/image',[PostController::class, 'updateImage']);
+});
 
-Route::get('/posts/{post}/category',[PostController::class, 'selectCategory']);
-Route::post('/posts/{post}/category',[PostController::class, 'updateCategory']);
-Route::get('/posts/{post}/status',[PostController::class, 'updateStatus']);
-Route::get('/posts/{post}/image',[PostController::class, 'showImage']);
-Route::post('/posts/{post}/image',[PostController::class, 'updateImage']);
+Route::get('/', function (){
+    return view('welcome');
+});
+
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

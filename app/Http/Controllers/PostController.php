@@ -122,9 +122,7 @@ class PostController extends Controller
     {
         $data = $request->validationData();
         $data['image']=Storage::disk('public')->put('images',$data['image']);
-        $post->update([
-            'image' => $data['image']
-        ]);
+        $post->update($data);
         return back();
     }
 }
