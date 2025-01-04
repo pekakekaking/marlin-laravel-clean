@@ -139,8 +139,11 @@
                 {{$post['content']}}
             </dd>
         </dl>
-
-
+@include('comments.list',['collection'=>$threadedComments['root']])
+        @if (Auth::check())
+            <h3>Оставьте свой комментарий</h3>
+            @include ('comments.form')
+        @endif
     </div>
 </section>
 

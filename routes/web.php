@@ -17,6 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}/status',[PostController::class, 'updateStatus']);
     Route::get('/posts/{post}/image',[PostController::class, 'showImage']);
     Route::post('/posts/{post}/image',[PostController::class, 'updateImage']);
+    Route::post('/posts/{post}/comments',[CommentController::class, 'store']);
+    Route::get('/posts/{post}/comments/{comment}',[CommentController::class, 'approve']);
 });
 
 Route::get('/', function (){

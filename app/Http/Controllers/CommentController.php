@@ -29,7 +29,11 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['user_id']=auth()->id();
+        dd(auth());
+        Comment::create($data);
+        return back();
     }
 
     /**
@@ -62,5 +66,18 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         //
+    }
+    public function approve(Comment $comment)
+    {
+        if ($comment['is_approved'] == '1') {
+            $comment->update([
+                'is_approved' => 0
+            ]);
+        } else {
+            $comment->update([
+                'is_approved' => 1
+            ]);
+        }
+        return back();
     }
 }

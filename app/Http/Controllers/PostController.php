@@ -14,6 +14,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use App\Services\CollectCommentService;
 
 class PostController extends Controller
 {
@@ -52,8 +53,9 @@ class PostController extends Controller
     public function show(Post $post)
     {
         PostShowEvent::dispatch($post);
-        $post = PostResource::make($post->load('category'))->resolve();
-        return view('show', compact('post'));
+        $post = PostResource::make($post->load(['category','comments.user']))->resolve();
+        $threadedComments=CollectCommentService::threaded($post['comments']);
+        return view('show', compact('post','threadedComments'));
     }
 
     /**
