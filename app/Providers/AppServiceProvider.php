@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('admin', function ($user) {
+        Gate::define('administrate', function ($user) {
             return $user->email === 'user@gmail.com';
         });
     }

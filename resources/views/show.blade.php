@@ -25,6 +25,7 @@
                 Список статей
             </a>
         </div>
+        @can('administrate')
         <div class="text-gray-900 font-medium inline-flex items-center">
             <svg class="mr-1 -ml-1 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                  viewBox="0 0 24 24">
@@ -99,6 +100,7 @@
                 </button>
             </form>
         </div>
+        @endcan
         <dl class="flex items-center space-x-6 mt-5">
             <div>
                 <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Категория</dt>

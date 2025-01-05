@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Post;
 use App\Observers\CommentObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Support\Facades\Gate;
 
 #[ObservedBy([CommentObserver::class])]
 class CommentController extends Controller
@@ -68,11 +69,13 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        Gate::authorize('delete', $comment);
         $comment->delete();
         return back();
     }
     public function approve(Post $post,Comment $comment)
     {
+        Gate::authorize('update', $comment);
         if ($comment['is_approved'] == '1') {
             $comment->update([
                 'is_approved' => 0
