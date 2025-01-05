@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use App\Models\Post;
+use App\Observers\CommentObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
+#[ObservedBy([CommentObserver::class])]
 class CommentController extends Controller
 {
     /**
@@ -31,7 +35,6 @@ class CommentController extends Controller
     {
         $data = $request->validated();
         $data['user_id']=auth()->id();
-        dd(auth());
         Comment::create($data);
         return back();
     }
@@ -65,9 +68,10 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return back();
     }
-    public function approve(Comment $comment)
+    public function approve(Post $post,Comment $comment)
     {
         if ($comment['is_approved'] == '1') {
             $comment->update([

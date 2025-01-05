@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Задача</title>
-    <link rel="stylesheet" href="https://happyhaha.github.io/css/dist/style.min.css">
+{{--    <link rel="stylesheet" href="https://happyhaha.github.io/css/dist/style.min.css">--}}
 </head>
 <body>
 
@@ -148,7 +148,7 @@
 </section>
 
 
-<script src="https://happyhaha.github.io/css/dist/flowbite.min.js"></script>
+{{--<script src="https://happyhaha.github.io/css/dist/flowbite.min.js"></script>--}}
 
 </body>
 </html>
