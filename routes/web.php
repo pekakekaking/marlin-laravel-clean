@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}/status',[PostController::class, 'updateStatus']);
     Route::get('/posts/{post}/image',[PostController::class, 'showImage']);
     Route::post('/posts/{post}/image',[PostController::class, 'updateImage']);
+    Route::post('/posts/{post}/comments',[CommentController::class, 'store']);
+    Route::get('/posts/{post}/comments/{comment}',[CommentController::class, 'approve']);
+    Route::get('/comments/{comment}',[CommentController::class, 'destroy']);
 });
 
 Route::get('/', function (){

@@ -23,7 +23,9 @@ class PostResource extends JsonResource
             'look' => $this->look,
             'is_published' => $this->is_published,
             'image'=>$this->image,
-            'category'=>$this->category
+            'category'=>$this->category,
+            'comments'=>$this->comments,
+
         ];
     }
 }

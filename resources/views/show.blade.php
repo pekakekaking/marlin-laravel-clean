@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Задача</title>
-    <link rel="stylesheet" href="https://happyhaha.github.io/css/dist/style.min.css">
+{{--    <link rel="stylesheet" href="https://happyhaha.github.io/css/dist/style.min.css">--}}
 </head>
 <body>
 
@@ -139,13 +139,16 @@
                 {{$post['content']}}
             </dd>
         </dl>
-
-
+@include('comments.list',['collection'=>$threadedComments['root']])
+        @if (Auth::check())
+            <h3>Оставьте свой комментарий</h3>
+            @include ('comments.form')
+        @endif
     </div>
 </section>
 
 
-<script src="https://happyhaha.github.io/css/dist/flowbite.min.js"></script>
+{{--<script src="https://happyhaha.github.io/css/dist/flowbite.min.js"></script>--}}
 
 </body>
 </html>
