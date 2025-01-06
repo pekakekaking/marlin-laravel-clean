@@ -47,7 +47,7 @@ class PostController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
         $data['category_id'] = Category::all()->first()->id;
-        $post = Post::create($data);
+        Post::create($data);
         return back();
     }
 

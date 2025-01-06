@@ -37,7 +37,7 @@ class CategoryController extends Controller
     {
         Gate::authorize('create', Category::class);
         $data = $request->validated();
-        $category = Category::create($data);
+        Category::create($data);
         return back();
     }
 
