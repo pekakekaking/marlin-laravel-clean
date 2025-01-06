@@ -42,6 +42,10 @@
                         dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                aria-describedby="user_avatar_help" id="user_avatar" type="file" name="image">
                     </div>
+                    {{session()->get('status')}}
+                    @error('image')
+                    <strong>{{ $message }}</strong>
+                    @enderror
                 </div>
                 <button type="submit"
                         class="text-white inline-flex items-center bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 dark:focus:ring-yellow-900">
