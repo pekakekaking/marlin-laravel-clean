@@ -5,13 +5,14 @@
             </h4>
         </div>
     </div>
-    @if($comment['is_approved']==1 || Auth::user()->can('administrate'))
+
 
         <div class="card">
             <div class="card-header">
                 {{$comment->user->name}}
             </div>
             <div class="card-body">
+                @if($comment['is_approved']==1 || Auth::user()->can('administrate'))
                 {{ $comment->content }}
                 @can('administrate')
                     <a class="btn btn-link" href="/posts/{{$post['id']}}/comments/{{$comment['id']}}" role="button">
@@ -33,6 +34,8 @@
                     </div>
 
                 @endif
+                @else
+                    <h4>Комментарий проверяется модератором</h4>
                 @endif
                 @if (isset($threadedComments[$comment->id]))
                     @include ('comments.list', ['collection' => $threadedComments[$comment->id]])

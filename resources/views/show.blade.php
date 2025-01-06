@@ -147,6 +147,7 @@
         @if(isset($threadedComments['root']))
             @include('comments.list',['collection'=>$threadedComments['root']])
         @endif
+
         @if (Auth::check())
             <h3>Оставьте свой комментарий</h3>
             @include ('comments.form')
