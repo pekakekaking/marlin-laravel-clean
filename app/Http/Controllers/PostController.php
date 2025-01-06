@@ -12,6 +12,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use App\Services\ChangeBoolService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -44,10 +45,10 @@ class PostController extends Controller
     {
         Gate::authorize('create', Post::class);
         $data = $request->validated();
-        $data['user_id'] = isset(auth()->user()->id) ? auth()->user()->id : User::all()->first()->id;
+        $data['user_id'] = auth()->user()->id;
         $data['category_id'] = Category::all()->first()->id;
         $post = Post::create($data);
-        return PostResource::make($post)->resolve();
+        return back();
     }
 
     /**
@@ -104,23 +105,13 @@ class PostController extends Controller
     {
         Gate::authorize('update', $post);
         $data = $request->validated();
-        $post->update([
-            'category_id' => $data['category']
-        ]);
-        return PostResource::make($post)->resolve();
+        $post->update($data);
+        return back();
     }
     public function updateStatus(Post $post)
     {
         Gate::authorize('update', $post);
-        if ($post['is_published'] == '1') {
-            $post->update([
-                'is_published' => 0
-            ]);
-        } else {
-            $post->update([
-                'is_published' => 1
-            ]);
-        }
+        ChangeBoolService::changeBool($post,'is_published');
         return redirect()->route('posts.show', $post);
     }
     public function showImage(Post $post)
@@ -131,9 +122,10 @@ class PostController extends Controller
     public function updateImage(UpdatePictureInPostRequest $request, Post $post)
     {
         Gate::authorize('update', $post);
-        $data = $request->validationData();
+        $data = $request->validated();
         $data['image']=Storage::disk('public')->put('images',$data['image']);
         $post->update($data);
+        session()->flash('status', 'Image updated successfully');
         return back();
     }
 }

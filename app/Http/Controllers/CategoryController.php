@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        Gate::authorize('view', Category::class);
+        Gate::authorize('viewAny', Category::class);
         $categories = CategoryResource::collection(Category::all()->load('posts'))->resolve();
         return view('category_list', compact('categories'));
     }
@@ -38,7 +38,7 @@ class CategoryController extends Controller
         Gate::authorize('create', Category::class);
         $data = $request->validated();
         $category = Category::create($data);
-        return CategoryResource::make($category)->resolve();
+        return back();
     }
 
     /**
@@ -54,7 +54,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        Gate::authorize('edit', $category);
+        Gate::authorize('update', $category);
         $category = CategoryResource::make($category)->resolve();
         return view('category_edit', compact('category'));
     }
@@ -64,11 +64,11 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        Gate::authorize('edit', $category);
+        Gate::authorize('update', $category);
         $data = $request->validated();
         $category->update($data);
 
-        return CategoryResource::make($category)->resolve();
+        return back();
     }
 
     /**

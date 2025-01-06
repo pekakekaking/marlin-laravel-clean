@@ -15,7 +15,7 @@ class UpdatePictureInPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image'=>'required|file'
+            'image'=>'required|image'
         ];
     }
 }

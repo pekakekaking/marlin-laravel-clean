@@ -14,7 +14,7 @@ class UpdateCategoryInPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category'=>'required|integer|exists:categories,id',
+            'category_id'=>'required|integer|exists:categories,id',
         ];
     }
 }

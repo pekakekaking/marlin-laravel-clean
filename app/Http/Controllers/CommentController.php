@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Post;
 use App\Observers\CommentObserver;
+use App\Services\ChangeBoolService;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Support\Facades\Gate;
 
@@ -76,15 +77,7 @@ class CommentController extends Controller
     public function approve(Post $post,Comment $comment)
     {
         Gate::authorize('update', $comment);
-        if ($comment['is_approved'] == '1') {
-            $comment->update([
-                'is_approved' => 0
-            ]);
-        } else {
-            $comment->update([
-                'is_approved' => 1
-            ]);
-        }
+        ChangeBoolService::changeBool($comment,'is_approved');
         return back();
     }
 }
