@@ -21,6 +21,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'user@gmail.com',
             'password' => Hash::make('password'),
         ];
+        $user2 = [
+            'name' => 'user2',
+            'email' => 'user2@gmail.com',
+            'password' => Hash::make('password'),
+        ];
 
         User::firstOrCreate([
             'email' => $user['email']
@@ -28,10 +33,17 @@ class DatabaseSeeder extends Seeder
             'name' => 'user',
             'password' => Hash::make('password'),
         ]);
+        User::firstOrCreate([
+            'email' => $user2['email']
+        ], [
+            'name' => 'user2',
+            'password' => Hash::make('password'),
+        ]);
 
         $this->call([
             CategorySeeder::class,
             PostSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }

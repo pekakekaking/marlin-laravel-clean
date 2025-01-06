@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -15,6 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view', Category::class);
         $categories = CategoryResource::collection(Category::all()->load('posts'))->resolve();
         return view('category_list', compact('categories'));
     }
@@ -24,6 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Category::class);
         return view('category_create');
     }
 
@@ -32,6 +35,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+        Gate::authorize('create', Category::class);
         $data = $request->validated();
         $category = Category::create($data);
         return CategoryResource::make($category)->resolve();
@@ -50,6 +54,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        Gate::authorize('edit', $category);
         $category = CategoryResource::make($category)->resolve();
         return view('category_edit', compact('category'));
     }
@@ -59,7 +64,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-
+        Gate::authorize('edit', $category);
         $data = $request->validated();
         $category->update($data);
 
@@ -71,6 +76,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        Gate::authorize('delete', $category);
         $category->delete();
         return Response::HTTP_NO_CONTENT;
     }

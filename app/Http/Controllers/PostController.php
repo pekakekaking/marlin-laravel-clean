@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use App\Services\CollectCommentService;
 
@@ -32,6 +33,7 @@ class PostController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Post::class);
         return view('create');
     }
 
@@ -40,6 +42,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        Gate::authorize('create', Post::class);
         $data = $request->validated();
         $data['user_id'] = isset(auth()->user()->id) ? auth()->user()->id : User::all()->first()->id;
         $data['category_id'] = Category::all()->first()->id;
@@ -63,7 +66,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-
+        Gate::authorize('update', $post);
         $post = PostResource::make($post->load('category'))->resolve();
         return view('edit', compact('post'));
     }
@@ -73,6 +76,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        Gate::authorize('update', $post);
         $data = $request->validated();
         $post->update($data);
         return PostResource::make($post)->resolve();
@@ -83,12 +87,14 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        Gate::authorize('delete', $post);
         $post->delete();
         return Response::HTTP_NO_CONTENT;
     }
 
     public function selectCategory(Post $post)
     {
+        Gate::authorize('update', $post);
         $post = PostResource::make($post->load('category'))->resolve();
         $categories = CategoryResource::collection(Category::all())->resolve();
         return view('select_category', compact('post', 'categories'));
@@ -96,6 +102,7 @@ class PostController extends Controller
 
     public function updateCategory(UpdateCategoryInPostRequest $request, Post $post)
     {
+        Gate::authorize('update', $post);
         $data = $request->validated();
         $post->update([
             'category_id' => $data['category']
@@ -104,6 +111,7 @@ class PostController extends Controller
     }
     public function updateStatus(Post $post)
     {
+        Gate::authorize('update', $post);
         if ($post['is_published'] == '1') {
             $post->update([
                 'is_published' => 0
@@ -122,6 +130,7 @@ class PostController extends Controller
     }
     public function updateImage(UpdatePictureInPostRequest $request, Post $post)
     {
+        Gate::authorize('update', $post);
         $data = $request->validationData();
         $data['image']=Storage::disk('public')->put('images',$data['image']);
         $post->update($data);

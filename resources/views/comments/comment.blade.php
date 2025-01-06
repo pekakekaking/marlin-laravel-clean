@@ -1,3 +1,4 @@
+@if($comment['is_approved']==1 || Auth::user()->can('administrate'))
 <div class="panel panel-default" style="margin-top: 10px">
     <div class="panel-heading">
         <div class="level">
@@ -13,15 +14,15 @@
         </div>
         <div class="card-body">
             {{ $comment->content }}
+            @can('administrate')
+                <a class="btn btn-link" href="/posts/{{$post['id']}}/comments/{{$comment['id']}}" role="button">
+                    {{$comment['is_approved']=='0'?'Одобрить':'Скрыть'}}
+                </a>
 
-            <a class="btn btn-link" href="/posts/{{$post['id']}}/comments/{{$comment['id']}}" role="button">
-                {{$comment['is_approved']=='0'?'Одобрить':'Скрыть'}}
-            </a>
-
-            <a class="btn btn-link" href="/comments/{{$comment['id']}}" role="button">
-                Удалить
-            </a>
-
+                <a class="btn btn-link" href="/comments/{{$comment['id']}}" role="button">
+                    Удалить
+                </a>
+            @endcan
             @if (Auth::check())
 
                 <a class="btn btn-link" data-bs-toggle="collapse" href="#commentForm{{$comment->id}}" role="button"
@@ -42,3 +43,4 @@
 
 
 </div>
+@endif
