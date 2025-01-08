@@ -144,8 +144,8 @@
                 {{$post['content']}}
             </dd>
         </dl>
-        @if(isset($threadedComments['root']))
-            @include('comments.list',['collection'=>$threadedComments['root']])
+        @if(isset($threadedComments))
+            @include('comments.list',['collection'=>$threadedComments])
         @endif
 
         @if (Auth::check())

@@ -37,8 +37,8 @@
                 @else
                     <h4>Комментарий проверяется модератором</h4>
                 @endif
-                @if (isset($threadedComments[$comment->id]))
-                    @include ('comments.list', ['collection' => $threadedComments[$comment->id]])
+                @if (isset($comment['children']))
+                    @include ('comments.list', ['collection' => $comment['children']->load('children')])
                 @endif
             </div>
         </div>

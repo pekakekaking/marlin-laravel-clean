@@ -6,7 +6,7 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Observers\CommentObserver;
-use App\Services\HideOrShowEntityToUsers;
+use App\Services\Helpers;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Support\Facades\Gate;
 
@@ -36,10 +36,10 @@ class CommentController extends Controller
         return back();
     }
 
-    public function approve(Post $post, Comment $comment)
+    public function approve(Post $post, Comment $comment, Helpers $helper)
     {
         Gate::authorize('update', $comment);
-        HideOrShowEntityToUsers::HideOrShow($comment, 'is_approved');
+        $helper->HideOrShowEntityToUsers($comment, 'is_approved');
 
         return back();
     }

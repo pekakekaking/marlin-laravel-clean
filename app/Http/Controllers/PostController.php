@@ -6,9 +6,8 @@ use App\Events\PostShowEvent;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
-use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
-use App\Services\CollectCommentService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -53,8 +52,8 @@ class PostController extends Controller
     public function show(Post $post)
     {
         PostShowEvent::dispatch($post);
-        $post = PostResource::make($post->load(['category', 'comments.user']))->resolve();
-        $threadedComments = CollectCommentService::threaded($post['comments']);
+        $post = PostResource::make($post->load(['category']))->resolve();
+        $threadedComments = collect(Comment::where('post_id', '=', $post['id'])->get()->where('parent_id', null)->load('children'));
 
         return view('show', compact('post', 'threadedComments'));
     }

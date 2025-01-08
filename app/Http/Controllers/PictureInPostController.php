@@ -6,7 +6,6 @@ use App\Http\Requests\UpdatePictureInPostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
 
 class PictureInPostController extends Controller
 {

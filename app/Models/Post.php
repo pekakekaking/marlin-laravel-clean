@@ -35,12 +35,14 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
     public function updateImageInPost($data)
     {
         $data['image'] = Storage::disk('public')->put('images', $data['image']);
         $this->update($data);
         session()->flash('status', 'Image updated successfully');
     }
+
     public static function createWithUserAndCategory($data)
     {
 
