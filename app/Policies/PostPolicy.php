@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
@@ -29,7 +28,7 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return $user->email === 'user@gmail.com';
+        return $user->email === config('admin.email');
     }
 
     /**
@@ -37,7 +36,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->email === 'user@gmail.com';
+        return $user->email === config('admin.email');
     }
 
     /**
@@ -45,7 +44,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->email === 'user@gmail.com';
+        return $user->email === config('admin.email');
     }
 
     /**
@@ -53,7 +52,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        return $user->email === 'user@gmail.com';
+        return $user->email === config('admin.email');
     }
 
     /**
@@ -61,6 +60,6 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return $user->email === 'user@gmail.com';
+        return $user->email === config('admin.email');
     }
 }

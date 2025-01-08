@@ -4,19 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Events\PostShowEvent;
 use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdateCategoryInPostRequest;
-use App\Http\Requests\UpdatePictureInPostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
-use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
-use App\Models\User;
-use App\Services\ChangeBoolService;
+use App\Services\ResourceService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use App\Services\CollectCommentService;
 
 class PostController extends Controller
 {
@@ -26,6 +21,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = PostResource::collection(Post::all()->load('category'))->resolve();
+
         return view('main', compact('posts'));
     }
 
@@ -35,6 +31,7 @@ class PostController extends Controller
     public function create()
     {
         Gate::authorize('create', Post::class);
+
         return view('create');
     }
 
@@ -45,9 +42,8 @@ class PostController extends Controller
     {
         Gate::authorize('create', Post::class);
         $data = $request->validated();
-        $data['user_id'] = auth()->user()->id;
-        $data['category_id'] = Category::all()->first()->id;
-        Post::create($data);
+        Post::createWithUserAndCategory($data);
+
         return back();
     }
 
@@ -57,9 +53,10 @@ class PostController extends Controller
     public function show(Post $post)
     {
         PostShowEvent::dispatch($post);
-        $post = PostResource::make($post->load(['category','comments.user']))->resolve();
-        $threadedComments=CollectCommentService::threaded($post['comments']);
-        return view('show', compact('post','threadedComments'));
+        $post = (new ResourceService)->collectOne($post, 'category');
+        $threadedComments = collect(Comment::where('post_id', '=', $post['id'])->get()->where('parent_id', null)->load('children'));
+
+        return view('show', compact('post', 'threadedComments'));
     }
 
     /**
@@ -68,7 +65,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         Gate::authorize('update', $post);
-        $post = PostResource::make($post->load('category'))->resolve();
+        $post = (new ResourceService)->collectOne($post);
+
         return view('edit', compact('post'));
     }
 
@@ -80,7 +78,8 @@ class PostController extends Controller
         Gate::authorize('update', $post);
         $data = $request->validated();
         $post->update($data);
-        return PostResource::make($post)->resolve();
+
+        return back();
     }
 
     /**
@@ -90,42 +89,7 @@ class PostController extends Controller
     {
         Gate::authorize('delete', $post);
         $post->delete();
+
         return Response::HTTP_NO_CONTENT;
-    }
-
-    public function selectCategory(Post $post)
-    {
-        Gate::authorize('update', $post);
-        $post = PostResource::make($post->load('category'))->resolve();
-        $categories = CategoryResource::collection(Category::all())->resolve();
-        return view('select_category', compact('post', 'categories'));
-    }
-
-    public function updateCategory(UpdateCategoryInPostRequest $request, Post $post)
-    {
-        Gate::authorize('update', $post);
-        $data = $request->validated();
-        $post->update($data);
-        return back();
-    }
-    public function updateStatus(Post $post)
-    {
-        Gate::authorize('update', $post);
-        ChangeBoolService::changeBool($post,'is_published');
-        return redirect()->route('posts.show', $post);
-    }
-    public function showImage(Post $post)
-    {
-        $post = PostResource::make($post)->resolve();
-        return view('image', compact('post'));
-    }
-    public function updateImage(UpdatePictureInPostRequest $request, Post $post)
-    {
-        Gate::authorize('update', $post);
-        $data = $request->validated();
-        $data['image']=Storage::disk('public')->put('images',$data['image']);
-        $post->update($data);
-        session()->flash('status', 'Image updated successfully');
-        return back();
     }
 }
