@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Comment;
-use App\Models\Post;
 use Illuminate\Database\Eloquent\Collection;
 
 class CollectCommentService extends Collection
@@ -18,6 +16,7 @@ class CollectCommentService extends Collection
             $comments['root'] = $comments[''];
             unset($comments['']);
         }
+
         return $comments;
     }
 }

@@ -18,6 +18,7 @@ class CategoryController extends Controller
     {
         Gate::authorize('viewAny', Category::class);
         $categories = CategoryResource::collection(Category::all()->load('posts'))->resolve();
+
         return view('category_list', compact('categories'));
     }
 
@@ -27,6 +28,7 @@ class CategoryController extends Controller
     public function create()
     {
         Gate::authorize('create', Category::class);
+
         return view('category_create');
     }
 
@@ -38,15 +40,8 @@ class CategoryController extends Controller
         Gate::authorize('create', Category::class);
         $data = $request->validated();
         Category::create($data);
-        return back();
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
+        return back();
     }
 
     /**
@@ -56,6 +51,7 @@ class CategoryController extends Controller
     {
         Gate::authorize('update', $category);
         $category = CategoryResource::make($category)->resolve();
+
         return view('category_edit', compact('category'));
     }
 
@@ -78,6 +74,7 @@ class CategoryController extends Controller
     {
         Gate::authorize('delete', $category);
         $category->delete();
+
         return Response::HTTP_NO_CONTENT;
     }
 }

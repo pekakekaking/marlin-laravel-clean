@@ -6,8 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCommentRequest extends FormRequest
 {
-
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,9 +14,9 @@ class StoreCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'parent_id'=>"nullable|integer",
-            'content'=>"required|string",
-            'post_id'=>"nullable|integer|exists:posts,id",
+            'parent_id' => 'nullable|integer',
+            'content' => 'required|string',
+            'post_id' => 'nullable|integer|exists:posts,id',
         ];
     }
 }

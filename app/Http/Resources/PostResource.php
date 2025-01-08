@@ -22,9 +22,9 @@ class PostResource extends JsonResource
             'category_id' => $this->category_id,
             'look' => $this->look,
             'is_published' => $this->is_published,
-            'image'=>$this->image,
-            'category'=>$this->category,
-            'comments'=>$this->comments,
+            'image' => $this->image,
+            'category' => $this->category,
+            'comments' => $this->comments,
 
         ];
     }

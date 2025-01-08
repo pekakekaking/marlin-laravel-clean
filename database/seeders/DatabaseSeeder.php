@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
 use App\Models\User;
-
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -28,13 +26,13 @@ class DatabaseSeeder extends Seeder
         ];
 
         User::firstOrCreate([
-            'email' => $user['email']
+            'email' => $user['email'],
         ], [
             'name' => 'user',
             'password' => Hash::make('password'),
         ]);
         User::firstOrCreate([
-            'email' => $user2['email']
+            'email' => $user2['email'],
         ], [
             'name' => 'user2',
             'password' => Hash::make('password'),

@@ -6,8 +6,6 @@ use App\Models\Post;
 
 class PostObserver
 {
-
-
     /**
      * Handle the Post "created" event.
      */

@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-class ChangeBoolService
+class HideOrShowEntityToUsers
 {
-    public static function changeBool($item, string $string)
+    public static function HideOrShow($item, string $string)
     {
         if ($item[$string] == '1') {
             $item->update([
-                $string => 0
+                $string => 0,
             ]);
         } else {
             $item->update([
-                $string => 1
+                $string => 1,
             ]);
         }
     }
