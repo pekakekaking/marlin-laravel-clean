@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePictureInPostRequest;
-use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Services\ResourceService;
 use Illuminate\Support\Facades\Gate;
 
 class PictureInPostController extends Controller
 {
     public function showImage(Post $post)
     {
-        $post = PostResource::make($post)->resolve();
+        $post = (new ResourceService)->collectOne($post);
 
         return view('image', compact('post'));
     }

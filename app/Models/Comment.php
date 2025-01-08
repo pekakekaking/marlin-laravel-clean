@@ -34,4 +34,10 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
+
+    public static function createWithUser($data)
+    {
+        $data['user_id'] = auth()->id();
+        self::create($data);
+    }
 }

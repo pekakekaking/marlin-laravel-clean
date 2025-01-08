@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Services\ResourceService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,7 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
         Gate::authorize('viewAny', Category::class);
-        $categories = CategoryResource::collection(Category::all()->load('posts'))->resolve();
+        $categories = (new ResourceService)->collectAll('Category', 'posts');
 
         return view('category_list', compact('categories'));
     }
@@ -50,7 +50,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         Gate::authorize('update', $category);
-        $category = CategoryResource::make($category)->resolve();
+        $category = (new ResourceService)->collectOne($category);
 
         return view('category_edit', compact('category'));
     }

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Services\ResourceService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -52,7 +53,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         PostShowEvent::dispatch($post);
-        $post = PostResource::make($post->load(['category']))->resolve();
+        $post = (new ResourceService)->collectOne($post, 'category');
         $threadedComments = collect(Comment::where('post_id', '=', $post['id'])->get()->where('parent_id', null)->load('children'));
 
         return view('show', compact('post', 'threadedComments'));
@@ -64,7 +65,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         Gate::authorize('update', $post);
-        $post = PostResource::make($post->load('category'))->resolve();
+        $post = (new ResourceService)->collectOne($post);
 
         return view('edit', compact('post'));
     }
@@ -78,7 +79,7 @@ class PostController extends Controller
         $data = $request->validated();
         $post->update($data);
 
-        return PostResource::make($post)->resolve();
+        return back();
     }
 
     /**

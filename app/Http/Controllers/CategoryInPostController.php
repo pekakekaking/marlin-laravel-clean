@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateCategoryInPostRequest;
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\PostResource;
-use App\Models\Category;
 use App\Models\Post;
+use App\Services\ResourceService;
 use Illuminate\Support\Facades\Gate;
 
 class CategoryInPostController extends Controller
@@ -14,8 +12,8 @@ class CategoryInPostController extends Controller
     public function selectCategory(Post $post)
     {
         Gate::authorize('update', $post);
-        $post = PostResource::make($post->load('category'))->resolve();
-        $categories = CategoryResource::collection(Category::all())->resolve();
+        $post = (new ResourceService)->collectOne($post, 'category');
+        $categories = (new ResourceService)->collectAll('Category');
 
         return view('select_category', compact('post', 'categories'));
     }

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class Helpers
+class Helper
 {
     public function HideOrShowEntityToUsers(object $item, string $parameter)
     {

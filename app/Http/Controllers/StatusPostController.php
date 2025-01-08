@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Services\Helpers;
+use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -12,10 +12,10 @@ class StatusPostController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Post $post, Helpers $helper)
+    public function __invoke(Post $post)
     {
         Gate::authorize('update', $post);
-        $helper->HideOrShowEntityToUsers($post, 'is_published');
+        (new Helper)->HideOrShowEntityToUsers($post, 'is_published');
 
         return redirect()->route('posts.show', $post);
     }
