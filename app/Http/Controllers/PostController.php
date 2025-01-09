@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\PostShowEvent;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Http\Resources\PostResource;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Services\ResourceService;
@@ -20,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = PostResource::collection(Post::all()->load('category'))->resolve();
+        $posts = (new ResourceService)->collectAll('Post', 'category');
 
         return view('main', compact('posts'));
     }
