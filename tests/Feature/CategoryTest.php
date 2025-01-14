@@ -1,10 +1,7 @@
 <?php
 
-
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Category;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -14,7 +11,9 @@ class CategoryTest extends TestCase
     {
         parent::setUp();
     }
-    #[Test] public function response_for_route_create_is_view_category_create()
+
+    #[Test]
+    public function response_for_route_create_is_view_category_create()
     {
         $this->withoutExceptionHandling();
         $user = \App\Models\User::find(4);
@@ -25,7 +24,8 @@ class CategoryTest extends TestCase
 
     }
 
-    #[Test] public function category_can_be_stored()
+    #[Test]
+    public function category_can_be_stored()
     {
         $this->withoutExceptionHandling();
         $user = \App\Models\User::find(4);
@@ -40,7 +40,8 @@ class CategoryTest extends TestCase
         $this->assertEquals($data['name'], $category->name);
     }
 
-    #[Test] public function attribute_name_is_required()
+    #[Test]
+    public function attribute_name_is_required()
     {
         $user = \App\Models\User::find(4);
         $data = [
@@ -52,7 +53,8 @@ class CategoryTest extends TestCase
 
     }
 
-    #[Test] public function category_can_be_updated()
+    #[Test]
+    public function category_can_be_updated()
     {
         $user = \App\Models\User::find(4);
         $this->withoutExceptionHandling();
@@ -61,7 +63,7 @@ class CategoryTest extends TestCase
             'name' => 'Category 1 edited',
         ];
 
-        $response = $this->followingRedirects()->actingAs($user)->patch('/categories/' . $category->id, $data);
+        $response = $this->followingRedirects()->actingAs($user)->patch('/categories/'.$category->id, $data);
         $response->assertStatus(200);
         $categoryUpdated = $category->refresh();
         $this->assertEquals($data['name'], $categoryUpdated->name);
@@ -70,7 +72,8 @@ class CategoryTest extends TestCase
 
     }
 
-    #[Test] public function response_for_route_categories_index_is_view_category_list()
+    #[Test]
+    public function response_for_route_categories_index_is_view_category_list()
     {
         $this->withoutExceptionHandling();
         $user = \App\Models\User::find(4);
@@ -83,41 +86,47 @@ class CategoryTest extends TestCase
         $response->assertSeeText($titles);
     }
 
-    #[Test] public function response_for_route_categories_edit_is_view_category_edit()
+    #[Test]
+    public function response_for_route_categories_edit_is_view_category_edit()
     {
         $this->withoutExceptionHandling();
         $category = Category::latest()->first();
         $user = \App\Models\User::find(4);
 
-        $response = $this->actingAs($user)->get('/categories/' . $category->id . '/edit');
+        $response = $this->actingAs($user)->get('/categories/'.$category->id.'/edit');
         $response->assertViewIs('category_edit');
         $response->assertSeeText('Изменить категорию');
         $response->assertSeeHtml($category->name);
     }
 
-    #[Test] public function category_can_be_deleted()
+    #[Test]
+    public function category_can_be_deleted()
     {
         $this->withoutExceptionHandling();
         $category = Category::latest()->first();
         $user = \App\Models\User::find(4);
-        $this->actingAs($user)->delete('/categories/' . $category->id);
+        $this->actingAs($user)->delete('/categories/'.$category->id);
         $category = Category::latest()->first();
-        $response = $this->actingAs($user)->delete('/categories/' . $category->id);
+        $response = $this->actingAs($user)->delete('/categories/'.$category->id);
         $response->assertStatus(200);
         $this->assertDatabaseMissing('categories', ['name' => $category->name]);
     }
-    #[Test] public function category_can_be_deleted_only_by_auth_user()
+
+    #[Test]
+    public function category_can_be_deleted_only_by_auth_user()
     {
         $category = Category::latest()->first();
-        $response = $this->delete('/categories/' . $category->id);
+        $response = $this->delete('/categories/'.$category->id);
         $response->assertRedirect();
         $this->assertDatabaseHas('categories', ['name' => $category->name]);
     }
-    #[Test] public function category_can_be_deleted_only_by_admin()
+
+    #[Test]
+    public function category_can_be_deleted_only_by_admin()
     {
         $user = \App\Models\User::find(5);
         $category = Category::latest()->first();
-        $response = $this->actingAs($user)->delete('/categories/' . $category->id);
+        $response = $this->actingAs($user)->delete('/categories/'.$category->id);
         $response->assertStatus(403);
         $this->assertDatabaseHas('categories', ['name' => $category->name]);
     }

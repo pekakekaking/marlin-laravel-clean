@@ -9,8 +9,8 @@ use Tests\TestCase;
 
 class ResourceServiceTest extends TestCase
 {
-
-    #[Test] public function test_collect_all_method_in_resource_service()
+    #[Test]
+    public function test_collect_all_method_in_resource_service()
     {
         $collection = (new ResourceService)->collectAll('Category');
         $this->assertIsArray($collection);
@@ -18,12 +18,13 @@ class ResourceServiceTest extends TestCase
         $this->assertDatabaseCount('categories', $count);
     }
 
-    #[Test] public function test_collect_one_method_in_resource_service()
+    #[Test]
+    public function test_collect_one_method_in_resource_service()
     {
         $category = Category::find(1);
         $response = (new ResourceService)->collectOne($category);
         $this->assertIsArray($response);
-        $this->assertEquals($category->id,$response['id']);
+        $this->assertEquals($category->id, $response['id']);
 
     }
 }
