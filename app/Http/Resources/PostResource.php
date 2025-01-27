@@ -25,7 +25,7 @@ class PostResource extends JsonResource
             'image' => $this->image,
             'category' => $this->category,
             'comments' => $this->comments,
-
+            'seasons'=>$this->seasons
         ];
     }
 }

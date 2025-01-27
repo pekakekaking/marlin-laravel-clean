@@ -63,17 +63,17 @@
                     </svg>
                     Загрузить картинку
                 </a>
-                    <a href="/posts/{{$post['id']}}/status"
-                       class="inline-flex items-center text-white bg-black hover:bg-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-0 text-center me-2">
-                        <svg class="mr-1 -ml-1 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             fill="none"
-                             viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                        </svg>
+                <a href="/posts/{{$post['id']}}/status"
+                   class="inline-flex items-center text-white bg-black hover:bg-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-0 text-center me-2">
+                    <svg class="mr-1 -ml-1 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                         fill="none"
+                         viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                    </svg>
 
-                        {{$post['is_published']=='1'?'Скрыть':'Опубликовать'}}
-                    </a>
+                    {{$post['is_published']=='1'?'Скрыть':'Опубликовать'}}
+                </a>
 
                 <a href="/posts/{{$post['id']}}/edit"
                    class="inline-flex items-center text-white ml-0 bg-yellow-400 hover:bg-yellow-500 focus:outline-none
@@ -137,7 +137,22 @@
             </div>
         </dl>
         <h2 class="mb-2 mt-5 text-xl font-semibold leading-none text-gray-900 md:text-2xl dark:text-white">{{$post['name']}}</h2>
+
         <img src="/storage/{{$post['image']}}" alt="">
+
+        <a href="/posts/{{$post['id']}}/seasons/"
+           class="inline-flex items-center text-gray-900 focus:outline-none bg-white rounded-lg border
+                border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700
+                 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 font-medium
+                  rounded-lg text-sm px-5 py-2.5 mr-0 text-center me-2">
+            <svg class="mr-1 -ml-1 w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 fill="none"
+                 viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                      d="M5 7h14M5 12h14M5 17h14"/>
+            </svg>
+            Сезоны
+        </a>
         <dl class="mt-5">
             <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Полный текст</dt>
             <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">

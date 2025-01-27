@@ -35,6 +35,10 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    public function seasons(): HasMany
+    {
+        return $this->hasMany(Season::class);
+    }
 
     public function updateImageInPost($data)
     {

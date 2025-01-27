@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PictureInPostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\StatusPostController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts/{post}/comments', [CommentController::class, 'store']);
     Route::get('/posts/{post}/comments/{comment}', [CommentController::class, 'approve']);
     Route::get('/comments/{comment}', [CommentController::class, 'destroy']);
+    Route::get('/posts/{post}/seasons', [SeasonController::class, 'index']);
+    Route::get('/posts/{post}/seasons/create', [SeasonController::class, 'create']);
+    Route::get('/seasons/{season}/edit', [SeasonController::class, 'edit']);
+    Route::delete('/seasons/{season}', [SeasonController::class, 'destroy']);
 });
 
 Route::get('/', function () {
