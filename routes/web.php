@@ -23,8 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts/{post}/comments', [CommentController::class, 'store']);
     Route::get('/posts/{post}/comments/{comment}', [CommentController::class, 'approve']);
     Route::get('/comments/{comment}', [CommentController::class, 'destroy']);
-    Route::get('/posts/{post}/seasons', [SeasonController::class, 'index']);
-    Route::get('/posts/{post}/seasons/create', [SeasonController::class, 'create']);
+    Route::get('/posts/{post}/seasons', [SeasonController::class, 'index'])->name('seasons.index');
+    Route::get('/posts/{post}/seasons/create', [SeasonController::class, 'create'])->name('seasons.create');
     Route::get('/seasons/{season}/edit', [SeasonController::class, 'edit']);
     Route::delete('/seasons/{season}', [SeasonController::class, 'destroy']);
 });

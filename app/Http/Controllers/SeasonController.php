@@ -14,11 +14,10 @@ class SeasonController extends Controller
     public function index(Post $post)
     {
         $seasons = SeasonResource::collection(Season::where('post_id', '=', $post->id)->get())->resolve();
-        return view('seasons.season_list', compact('seasons'));
+        return view('seasons.season_list', compact('seasons','post'));
     }
     public function create(Post $post)
     {
-        dd($post);
-        return view('seasons.season_create');
+        return view('seasons.season_create',compact('post'));
     }
 }
