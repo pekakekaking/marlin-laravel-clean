@@ -6,13 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreSeasonRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -22,7 +16,13 @@ class StoreSeasonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>'required|string',
         ];
+    }
+    public function passedValidation()
+    {
+        return $this->merge([
+            'post_id'=>$this->post->id,
+        ]);
     }
 }

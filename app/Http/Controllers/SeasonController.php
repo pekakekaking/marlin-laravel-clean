@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSeasonRequest;
 use App\Http\Resources\SeasonResource;
 use App\Models\Post;
 use App\Models\Season;
@@ -19,5 +20,10 @@ class SeasonController extends Controller
     public function create(Post $post)
     {
         return view('seasons.season_create',compact('post'));
+    }
+    public function store(StoreSeasonRequest $request, Post $post)
+    {
+        $data=$request->validationData();
+        dd($data);
     }
 }
