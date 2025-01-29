@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}/seasons', [SeasonController::class, 'index'])->name('seasons.index');
     Route::post('/posts/{post}/seasons', [SeasonController::class, 'store'])->name('seasons.store');
     Route::get('/posts/{post}/seasons/create', [SeasonController::class, 'create'])->name('seasons.create');
+    Route::patch('/posts/{post}/seasons/{season}/edit', [SeasonController::class, 'edit'])->name('seasons.edit');
     Route::get('/seasons/{season}/edit', [SeasonController::class, 'edit']);
     Route::delete('/seasons/{season}', [SeasonController::class, 'destroy']);
 });
