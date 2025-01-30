@@ -29,7 +29,7 @@
                     Изменить сезон
                 </h3>
             </div>
-            <form action="/posts/{{$post['id']}}/seasons/{{$season['id']}}/edit" method="POST">
+            <form action="/posts/{{$post['id']}}/seasons/{{$season['id']}}" method="POST">
                 @csrf
                 @method('PATCH')
                 <div class="mb-4">
