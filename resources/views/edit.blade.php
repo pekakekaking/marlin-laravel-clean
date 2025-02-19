@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Задача</title>
-    <link rel="stylesheet" href="https://happyhaha.github.io/css/dist/style.min.css">
-</head>
-<body>
-
+@extends('layouts.app_admin')
+@section('title', 'Редактировать статью')
+@section('header')
 <h1 class="max-w-full mb-4 mt-5 text-3xl font-extrabold tracking-tight leading-none md:text-5xl dark:text-white text-center">
     Редактировать статью</h1>
-
-<div class="max-w-2xl mx-auto">
+@endsection
+@section('content')
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <a href="/posts/{{$post['id']}}"
            class="mb-5 font-medium text-sm inline-flex items-center text-blue-500 hover:text-blue-800">
@@ -63,10 +56,4 @@
             </form>
         </div>
     </div>
-</div>
-
-
-<script src="https://happyhaha.github.io/css/dist/flowbite.min.js"></script>
-
-</body>
-</html>
+@endsection
