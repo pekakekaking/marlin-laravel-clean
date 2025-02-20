@@ -11,7 +11,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "tymon/jwt-auth": "^2.1",
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+      "ext-xdebug": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

@@ -24,12 +24,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}/comments/{comment}', [CommentController::class, 'approve']);
     Route::get('/comments/{comment}', [CommentController::class, 'destroy']);
     Route::resource('/posts/{post}/seasons', SeasonController::class);
-//    Route::get('/posts/{post}/seasons', [SeasonController::class, 'index'])->name('seasons.index');
-//    Route::post('/posts/{post}/seasons', [SeasonController::class, 'store'])->name('seasons.store');
-//    Route::get('/posts/{post}/seasons/create', [SeasonController::class, 'create'])->name('seasons.create');
-//    Route::get('/posts/{post}/seasons/{season}/edit', [SeasonController::class, 'edit'])->name('seasons.edit');
-//    Route::patch('/posts/{post}/seasons/{season}', [SeasonController::class, 'update'])->name('seasons.update');
-//    Route::delete('/posts/{post}/seasons/{season}', [SeasonController::class, 'destroy']);
 });
 
 Route::get('/', function () {
@@ -45,5 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/xdebug', function () { xdebug_info(); });
 
 require __DIR__.'/auth.php';
